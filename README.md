@@ -58,3 +58,11 @@ Se classroom.
 GLHF!
 
 Tack [Malte](https://github.com/Mafrans) för lite ideér.
+
+{
+    title: 'African Warlord Clicker',
+    tagline: 'Du hjälper en afrikansk warlord bli starkare och starkare för att öka han arme av barnsoldater och slavarbetare',
+    url: 'https://axelwald.github.io/wu1-clicker/',
+    git: 'https://github.com/axelwald/wu1-clicker',
+    author: 'Axel Waldenborg'
+}

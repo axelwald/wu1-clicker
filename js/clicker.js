@@ -253,3 +253,25 @@ function message(text, type) {
         p.parentNode.removeChild(p);
     }, 2000);
 }
+
+
+
+const particleBox = document.getElementById("particle-area");
+
+function createParticle(parentElement = document.body) {
+  const particle = document.createElement("div");
+  particle.classList.add("particle");
+  particle.innerHTML = "<h1> +1 </h1>";
+  if (parentElement) {
+    parentElement.append(particle);
+  }
+  console.log(particle)
+  return particle;
+}
+
+clickerButton.addEventListener("click", function() {
+  const particle = createParticle(particleBox);
+  particle.addEventListener("animationend", function() {
+    particle.remove();
+  });
+});
