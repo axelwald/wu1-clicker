@@ -36,26 +36,45 @@ let active = false; // exempel för att visa att du kan lägga till klass för a
 // requiredSOMETHING är vad som krävs för att få dem
 
 let achievements = [
+
     {
-        description: 'Museet är redo att öppna, grattis! ',
+        description: "Du är fattig",
         requiredUpgrades: 1,
         acquired: false,
     },
+    
     {
-        description: 'Nu börjar det likna något, fortsätt gräva!',
-        requiredUpgrades: 10,
+        description: "Du är lite mindre fattig",
+        requiredUpgrades: 100,
         acquired: false,
     },
+    
     {
-        description: 'Klickare, med licens att klicka!',
-        requiredClicks: 10,
+        description: "Nu börjar det likna något",
+        requiredUpgrades: 1000,
         acquired: false,
-    },
-    {
-        description: 'Tac-2 god!',
-        requiredClicks: 10000,
-        acquired: false,
-    },
+    }
+
+    // {
+    //     description: 'Museet är redo att öppna, grattis! ',
+    //     requiredUpgrades: 1,
+    //     acquired: false,
+    // },
+    // {
+    //     description: 'Nu börjar det likna något, fortsätt gräva!',
+    //     requiredUpgrades: 10,
+    //     acquired: false,
+    // },
+    // {
+    //     description: 'Klickare, med licens att klicka!',
+    //     requiredClicks: 10,
+    //     acquired: false,
+    // },
+    // {
+    //     description: 'Tac-2 god!',
+    //     requiredClicks: 10000,
+    //     acquired: false,
+    // },
 ];
 
 /* Med ett valt element, som knappen i detta fall så kan vi skapa listeners
@@ -261,7 +280,7 @@ const particleBox = document.getElementById("particle-area");
 function createParticle(parentElement = document.body) {
   const particle = document.createElement("div");
   particle.classList.add("particle");
-  particle.innerHTML = "<h1> +1 </h1>";
+  particle.innerHTML = `<h1>+${moneyPerClick}</h1>`;
   if (parentElement) {
     parentElement.append(particle);
   }
