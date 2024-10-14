@@ -136,8 +136,6 @@ audio {
         place-self: center;
     }
 }
-
-/* för spelelementet används #id som selektor för att skapa css reglerna */
 #game-button {
     width: var(--space-4xl-5xl);
     height: var(--space-4xl-5xl);
@@ -150,16 +148,47 @@ audio {
     text-transform: uppercase;
     font-weight: 700;
     cursor: pointer;
+    transition: transform 0.2s ease-in-out;
 }
 
-#game-button:hover {
-    border-color: var(--color-dark-transparent);
+/* Apply the bounce animation when the bounce class is added */
+.bounce {
+    animation: bounce 0.3s ease-in-out;
 }
 
-#game-button:active {
-    border-color: var(--color-dark);
-    background-color: var(--color-dark-transparent);
+/* Define the keyframes for the bounce effect */
+@keyframes bounce {
+    0% {
+        transform: scale(1); /* Initial state */
+    }
+    30% {
+        transform: scale(1.2); /* Grow larger */
+    }
+    50% {
+        transform: scale(0.9); /* Shrink slightly */
+    }
+    100% {
+        transform: scale(1); /* Return to normal size */
+    }
 }
+
+.money-tracker {
+
+    position: absolute;
+    top: 50%; /* You can adjust this if you want it centered differently */
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+    background-color: rgba(0, 0, 0, 0.5); /* Slightly opaque black background */
+    color: white; /* White text color */
+    padding: 10px 20px; /* Padding around the text */
+    border-radius: 10px; /* Rounded corners */
+    font-size: 1.5rem; /* Size of the text */
+    font-weight: bold; /* Make the text bold */
+    text-align: center; /* Center the text inside the div */
+    z-index: 10; /* Ensure it stays on top */
+}
+
+
 
 /* #msgbox är elementet som visar sidans toasts, popupmeddelanden
 * fixed fungerar liknande absolute för att positionera element på ett fast ställe
@@ -240,21 +269,23 @@ audio {
 
 #particle-area {
     position: relative;
-    width: 50px;
-    height: 50px;
+    width: 200px;
+    height: 200px;
     display: flex;
     flex-direction: column-reverse;
+    justify-content: center; /* Centers horizontally */
+    align-items: center; 
   }
   
   .particle {
     width: 30px;
     height: 30px;
+    pointer-events: none;
     animation: particle-animation 2s ease-out;
   }
-  
   @keyframes particle-animation {
     0% {
-      transform: translate(-50%, -50%) scale(0);
+      transform: translate(-50%, -50%) scale(0.5);
       opacity: 1;
     }
   

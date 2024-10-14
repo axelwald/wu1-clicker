@@ -60,8 +60,8 @@ GLHF!
 Tack [Malte](https://github.com/Mafrans) för lite ideér.
 
 {
-    title: 'African Warlord Clicker',
-    tagline: 'Du hjälper en afrikansk warlord bli starkare och starkare för att öka han arme av barnsoldater och slavarbetare',
+    title: 'Capitalism Clicker',
+    tagline: 'Du tjänar pengar för att tjäna mer pengar i all oändlighet',
     url: 'https://axelwald.github.io/wu1-clicker/',
     git: 'https://github.com/axelwald/wu1-clicker',
     author: 'Axel Waldenborg'

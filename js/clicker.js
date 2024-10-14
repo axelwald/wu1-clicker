@@ -110,9 +110,6 @@ clickerButton.addEventListener(
  */
 function step(timestamp) {
     moneyTracker.textContent = Math.round(money);
-    mpsTracker.textContent = moneyPerSecond;
-    mpcTracker.textContent = moneyPerClick;
-    upgradesTracker.textContent = acquiredUpgrades;
 
     if (timestamp >= last + 1000) {
         money += moneyPerSecond;
@@ -273,24 +270,48 @@ function message(text, type) {
     }, 2000);
 }
 
-
-
-const particleBox = document.getElementById("particle-area");
+const particleBox = document.querySelector("#particle-area");
 
 function createParticle(parentElement = document.body) {
   const particle = document.createElement("div");
   particle.classList.add("particle");
+
+  const parentRect = parentElement.getBoundingClientRect();
+
+  const randomX = Math.random() * (parentRect.width - 50); 
+  const randomY = Math.random() * (parentRect.height - 50);
+
+  particle.style.position = 'absolute';
+  particle.style.left = `${randomX}px`;
+  particle.style.top = `${randomY}px`;
+
   particle.innerHTML = `<h1>+${moneyPerClick}</h1>`;
+
   if (parentElement) {
-    parentElement.append(particle);
+    parentElement.appendChild(particle);
   }
-  console.log(particle)
+
   return particle;
 }
 
 clickerButton.addEventListener("click", function() {
   const particle = createParticle(particleBox);
+
   particle.addEventListener("animationend", function() {
     particle.remove();
   });
+});
+
+// Get the game button element
+const gameButton = document.querySelector('#game-button');
+
+// Function to trigger the bounce effect
+gameButton.addEventListener('click', () => {
+    // Add the 'bounce' class
+    gameButton.classList.add('bounce');
+
+    // Remove the 'bounce' class after the animation ends
+    setTimeout(() => {
+        gameButton.classList.remove('bounce');
+    }, 300); // Match this duration with the animation duration
 });
