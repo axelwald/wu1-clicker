@@ -140,6 +140,7 @@ clickerButton.addEventListener(
             
         let audio = new Audio('audio/kachinf.mp3');  
         audio.play();
+        
         audio.addEventListener('ended', () => {
             audio = null;  
         });
@@ -324,7 +325,7 @@ function createCard(upgrade) {
     } else {
         header.textContent = `${upgrade.name}, +${upgrade.clicks} per klick.`;
     }
-    cost.textContent = `Köp för ${upgrade.cost} benbitar.`;
+    cost.textContent = `Köp för ${upgrade.cost} riksdalar.`;
 
     card.addEventListener('click', (e) => {
         if (money >= upgrade.cost) {
