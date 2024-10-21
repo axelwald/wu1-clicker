@@ -15,6 +15,8 @@ const upgradesTracker = document.querySelector('#upgrades');
 const upgradeList = document.querySelector('#upgradelist');
 const msgbox = document.querySelector('#msgbox');
 const audioAchievement = document.querySelector('#swoosh');
+const moneyBackground = document.querySelector("#money-background")
+console.log(moneyBackground.src)
 
 /* Följande variabler använder vi för att hålla reda på hur mycket pengar som
  * spelaren, har och tjänar.
@@ -39,20 +41,25 @@ let achievements = [
 
     {
         description: "Du är fattig",
-        requiredUpgrades: 1,
+        requiredMoney: 0,
         acquired: false,
+        image: "https://magnoliatribune.com/wp-content/uploads/2024/02/259DF660-9886-41BA-8D91-B0731273AC9D.jpeg"
     },
     
     {
         description: "Du är lite mindre fattig",
-        requiredUpgrades: 100,
+        requiredMoney: 1000,
         acquired: false,
+        image: "https://media.glamour.com/photos/5695e02f16d0dc3747ee7049/master/pass/inspired-2015-12-1960s-suburban-family-main.jpg"
+
     },
     
     {
         description: "Nu börjar det likna något",
-        requiredUpgrades: 1000,
+        requiredMoney: 100000,
         acquired: false,
+        image: "https://www.psychologs.com/wp-content/uploads/2023/08/The-Psychology-of-Rich-People.jpg"
+
     }
 
     // {
@@ -77,6 +84,43 @@ let achievements = [
     // },
 ];
 
+// // source: https://stackoverflow.com/a/11331200/4298200
+// function Sound(source, volume, loop)
+// {
+//     this.source = source;
+//     this.volume = volume;
+//     this.loop = loop;
+//     var son;
+//     this.son = son;
+//     this.finish = false;
+//     this.stop = function()
+//     {
+//         document.body.removeChild(this.son);
+//     }
+//     this.start = function()
+//     {
+//         if (this.finish) return false;
+//         this.son = document.createElement("embed");
+//         this.son.setAttribute("src", this.source);
+//         this.son.setAttribute("hidden", "true");
+//         this.son.setAttribute("volume", this.volume);
+//         this.son.setAttribute("autostart", "true");
+//         this.son.setAttribute("loop", this.loop);
+//         document.body.appendChild(this.son);
+//     }
+//     this.remove = function()
+//     {
+//         document.body.removeChild(this.son);
+//         this.finish = true;
+//     }
+//     this.init = function(volume, loop)
+//     {
+//         this.finish = false;
+//         this.volume = volume;
+//         this.loop = loop;
+//     }
+// }
+
 /* Med ett valt element, som knappen i detta fall så kan vi skapa listeners
  * med addEventListener så kan vi lyssna på ett specifikt event på ett html-element
  * som ett klick.
@@ -87,11 +131,18 @@ let achievements = [
  * money.
  * Läs mer: https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
  */
+
+
 clickerButton.addEventListener(
     'click',
     () => {
-        // vid click öka score med moneyPerClick
         money += moneyPerClick;
+            
+        let audio = new Audio('audio/kachinf.mp3');  
+        audio.play();
+        audio.addEventListener('ended', () => {
+            audio = null;  
+        });
         // håll koll på hur många gånger spelaren klickat
         numberOfClicks += 1;
         // console.log(clicker.score);
@@ -116,10 +167,7 @@ function step(timestamp) {
         last = timestamp;
     }
 
-    if (moneyPerSecond > 0 && !active) {
-        mpsTracker.classList.add('active');
-        active = true;
-    }
+  
 
     // achievements, utgår från arrayen achievements med objekt
     // koden nedan muterar (ändrar) arrayen och tar bort achievements
@@ -131,10 +179,20 @@ function step(timestamp) {
         if (achievement.acquired) {
             return false;
         }
+        
+        if (achievement.requiredMoney &&
+            money >= achievement.requiredMoney
+        ){
+            achievement.acquired = true;
+            moneyBackground.src = achievement.image
+            message(achievement.description, 'achievement');
+
+        }
         if (
             achievement.requiredUpgrades &&
             acquiredUpgrades >= achievement.requiredUpgrades
         ) {
+
             achievement.acquired = true;
             message(achievement.description, 'achievement');
             return false;
@@ -142,6 +200,7 @@ function step(timestamp) {
             achievement.requiredClicks &&
             numberOfClicks >= achievement.requiredClicks
         ) {
+            
             achievement.acquired = true;
             message(achievement.description, 'achievement');
             return false;
@@ -179,26 +238,62 @@ window.addEventListener('load', (event) => {
  */
 upgrades = [
     {
-        name: 'Sop',
+        name: 'Startup Investment',
         cost: 10,
         amount: 1,
     },
     {
-        name: 'Kvalitetsspade',
+        name: 'Corporate Merger',
         cost: 50,
-        clicks: 2,
+        clicks: 2, 
     },
     {
-        name: 'Skottkärra',
+        name: 'Offshore Account',
         cost: 100,
         amount: 10,
+        },
+    {
+        name: 'Real Estate Empire',
+        cost: 500,
+        amount: 50,
     },
     {
-        name: 'Grävmaskin',
+        name: 'Tech Monopoly',
         cost: 1000,
-        amount: 100,
+        amount: 100, 
+    },
+    {
+        name: 'Lobbyist Network',
+        cost: 2500,
+        amount: 250, 
+    },
+    {
+        name: 'Bank Bailout',
+        cost: 5000,
+        amount: 500, 
+    },
+    {
+        name: 'Tax Haven',
+        cost: 10000,
+        amount: 1000, // Huge click boost
+    },
+    {
+        name: 'Global Conglomerate',
+        cost: 25000,
+        amount: 2500, // Significantly increases money per click
+    },
+    {
+        name: 'Private Island',
+        cost: 50000,
+        amount: 5000, // Massive boost per click
+    },
+    {
+        name: 'World Domination',
+        cost: 100000,
+        amount: 10000, // Unparalleled money per click increase
     },
 ];
+
 
 /* createCard är en funktion som tar ett upgrade objekt som parameter och skapar
  * ett html kort för det.
@@ -302,16 +397,12 @@ clickerButton.addEventListener("click", function() {
   });
 });
 
-// Get the game button element
 const gameButton = document.querySelector('#game-button');
 
-// Function to trigger the bounce effect
 gameButton.addEventListener('click', () => {
-    // Add the 'bounce' class
     gameButton.classList.add('bounce');
 
-    // Remove the 'bounce' class after the animation ends
     setTimeout(() => {
         gameButton.classList.remove('bounce');
-    }, 300); // Match this duration with the animation duration
+    }, 300); 
 });
